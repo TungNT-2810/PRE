@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background5"
+    android:paddingTop="50dp"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp"
+    android:paddingBottom="70dp">
+    
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/logo_vertical"
+        android:id="@+id/imv_logo"/>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icon_account"
+        android:tint="@color/colorWhite"
+        android:layout_below="@id/imv_logo"
+        android:layout_marginTop="50dp"
+        android:id="@+id/imv_acc"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_layout_email"
+        android:layout_below="@id/imv_logo"
+        android:layout_toRightOf="@id/imv_acc"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="10dp"
+        android:textColorHint="@color/colorText">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/login_text_size"
+            android:hint="Email"
+            android:textColor="@color/colorWhite"
+            android:id="@+id/edt_email"
+            android:textColorHint="@color/colorWhite"
+            android:singleLine="true"
+            android:background="@drawable/custom_login_edittext"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhite"
+        android:layout_below="@id/input_layout_email"/>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icon_password"
+        android:tint="@color/colorWhite"
+        android:layout_below="@id/imv_acc"
+        android:layout_marginTop="20dp"
+        android:id="@+id/imv_pass"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_layout_passowrd"
+        android:layout_below="@id/imv_acc"
+        android:layout_toRightOf="@id/imv_pass"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:textColorHint="@color/colorText">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/login_text_size"
+            android:hint="Password"
+            android:textColor="@color/colorWhite"
+            android:id="@+id/edt_pass"
+            android:textColorHint="@color/colorWhite"
+            android:singleLine="true"
+            android:background="@drawable/custom_login_edittext"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorWhite"
+        android:layout_below="@id/input_layout_passowrd"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/custom_login_button"
+        android:text="Login"
+        android:textColor="@color/colorWhite"/>
+
+</RelativeLayout>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@mipmap/background"
+    android:paddingLeft="@dimen/login_padding_horizontal"
+    android:paddingRight="@dimen/login_padding_horizontal"
+    android:paddingBottom="@dimen/login_padding_vertical"
+    android:paddingTop="@dimen/login_padding_top"
+    tools:context=".activity.Login"
+    android:id="@+id/login_layout">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:layout_marginTop="70dp"
+            android:orientation="vertical"
+            android:padding="@dimen/login_mainUI_padding">
+            <ImageView
+                android:layout_width="@dimen/width_logo_text"
+                android:layout_height="@dimen/height_logo_text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_top_logo_only"
+                android:src="@mipmap/logo_text"
+                android:id="@+id/imv_logo_text"/>
+
+            <ImageView
+                android:layout_width="@dimen/login_icon_width"
+                android:layout_height="@dimen/login_icon_height"
+                android:src="@drawable/icon_account"
+                android:layout_below="@id/imv_logo_text"
+                android:layout_marginTop="@dimen/margin_top_login_icon"
+                android:id="@+id/imv_account"
+                android:tint="@color/colorText"
+                />
+            
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/input_layout_email"
+                android:layout_below="@id/imv_logo_text"
+                android:layout_toRightOf="@id/imv_account"
+                android:layout_marginTop="@dimen/margin_top_login_edit_text"
+                android:layout_marginLeft="10dp"
+                android:textColorHint="@color/colorText">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/login_edit_text_height"
+                    android:textSize="@dimen/login_text_size"
+                    android:hint="Email"
+                    android:textColor="@color/colorTyping"
+                    android:id="@+id/edt_email"
+                    android:textColorHint="@color/colorText"
+                    android:singleLine="true"
+                    android:background="@drawable/custom_login_edittext"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/imv_account"
+                android:background="@color/colorButton"
+                android:layout_marginLeft="@dimen/margin_left_login_icon"
+                android:layout_marginRight="@dimen/margin_right_login_edit_text"/>
+
+
+            <ImageView
+                android:layout_width="@dimen/login_icon_width"
+                android:layout_height="@dimen/login_icon_height"
+                android:layout_below="@id/imv_account"
+                android:layout_marginTop="@dimen/margin_top_login_edit_text"
+                android:src="@drawable/icon_password"
+                android:tint="@color/colorText"
+                android:id="@+id/imv_password"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/imv_account"
+                android:layout_toRightOf="@id/imv_account"
+                android:layout_marginTop="@dimen/margin_top_login_edit_text"
+                android:textColorHint="@color/colorText"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/input_layout_password">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/login_edit_text_height"
+                    android:textSize="@dimen/login_text_size"
+                    android:hint="Password"
+                    android:textColor="@color/colorTyping"
+                    android:id="@+id/edt_password"
+                    android:textColorHint="@color/colorText"
+                    android:singleLine="true"
+                    android:background="@drawable/custom_login_edittext"
+                    android:password="true"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/imv_password"
+                android:background="@color/colorButton"
+                android:layout_marginLeft="@dimen/margin_left_login_icon"
+                android:layout_marginRight="@dimen/margin_right_login_edit_text"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/login_button_height"
+                android:layout_alignParentBottom="true"
+                android:text="LOGIN"
+                android:textSize="24sp"
+                android:background="@color/colorButton"
+                android:textColor="@color/colorWhite"
+                android:id="@+id/btn_login"/>
+
+        </RelativeLayout>
+
+    <ImageView
+        android:layout_width="@dimen/width_logo_only"
+        android:layout_height="@dimen/height_logo_only"
+        android:background="@drawable/custom_round_image"
+        android:src="@mipmap/logo_only"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
