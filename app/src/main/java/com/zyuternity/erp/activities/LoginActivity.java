@@ -1,5 +1,6 @@
 package com.zyuternity.erp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.zyuternity.erp.R;
+import com.zyuternity.erp.database.connection.DBContext;
 import com.zyuternity.erp.network.ServiceFactory;
 import com.zyuternity.erp.network.json_model.JSONClassListModel;
 import com.zyuternity.erp.network.json_model.JSONInstructorListModel;
@@ -36,6 +38,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnLogin;
     private RelativeLayout loginLayout;
     private Snackbar snackbar;
+
+    //Database
+    private DBContext dbContext;
 
     private static final String TAG = LoginActivity.class.toString();
 
@@ -66,6 +71,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         //NetWork
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        dbContext = DBContext.getInst();
     }
 
     @Override
@@ -118,10 +129,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onResponse(Call<JSONClassListModel> call, Response<JSONClassListModel> response) {
 
                 if (response.code() == 200){
-                    JSONClassListModel JSONClassListModel = (JSONClassListModel) response.body();
-//                    for (JSONClassModel classModel : JSONClassListModel.getItem()){
-//                        Log.d(TAG, String.format("id = %s, code = %s, title = %s", classModel.getId(), classModel.getCode(), classModel.getTitle()));
-//                    }
+
+                    JSONClassListModel jsonClassListModel = response.body();
+                    dbContext.saveClasses(jsonClassListModel);
                     getInstructor();
                 }
             }
@@ -145,13 +155,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(Call<JSONInstructorListModel> call, Response<JSONInstructorListModel> response) {
                 if (response.code() == 200) {
-                    JSONInstructorListModel JSONInstructorListModel = (JSONInstructorListModel) response.body();
-//                    for (JSONInstructorModel instructorModel : JSONInstructorListModel.getItems()){
-//                    Log.d(TAG, String.format("name = %s, team  = %s, code = %s", instructorModel.getName(), instructorModel.getTeam(), instructorModel.getCode()));
-//                    Log.d(TAG, String.format("email = " + instructorModel.getContact().getEmail()));
-//                    }
+                    JSONInstructorListModel jsonInstructorListModel =  response.body();
+                    dbContext.saveInstructor(jsonInstructorListModel);
                     getRole();
-
                 }
             }
             @Override
@@ -166,16 +172,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    private void  getRole() {
+    private void getRole() {
         GetRoleService getRoleService = ServiceFactory.getInstance().createService(GetRoleService.class);
         Call<JSONRoleListModel> call = getRoleService.rolesModelCall();
         call.enqueue(new Callback<JSONRoleListModel>() {
             @Override
             public void onResponse(Call<JSONRoleListModel> call, Response<JSONRoleListModel> response) {
-                JSONRoleListModel JSONRoleListModel = response.body();
-                for (JSONRoleModel jsonRoleModel : JSONRoleListModel.getItems()) {
-                    Log.d(TAG, String.format("code = %s, title = %s", jsonRoleModel.getCode(), jsonRoleModel.getTitle()));
-                }
+                JSONRoleListModel jsonRoleListModel = response.body();
+                dbContext.saveRole(jsonRoleListModel);
+                gotoMainActivity();
             }
             @Override
             public void onFailure(Call<JSONRoleListModel> call, Throwable t) {
@@ -187,5 +192,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 });
             }
         });
+    }
+
+    private void gotoMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
+        this.finish();
     }
 }

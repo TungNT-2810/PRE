@@ -21,7 +21,7 @@ public class AddCookieIntercepter implements Interceptor {
         if(cookies != null) {
             for(String cookie : cookies) {
                 builder.addHeader("Cookie", cookie);
-                Log.v("OkHttp", "Adding Header: " + cookie);
+//                Log.v("OkHttp", "Adding Header: " + cookie);
             }
         }
         return chain.proceed(builder.build());

@@ -19,10 +19,10 @@ public class ReceiveCookiesInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Response originalResponse = chain.proceed(chain.request());
 
-        Log.d(TAG, "Outbound request intercepted");
+//        Log.d(TAG, "Outbound request intercepted");
 
         if (!originalResponse.headers("Set-Cookie").isEmpty()) {
-            Log.d(TAG, "Saving cookies");
+//            Log.d(TAG, "Saving cookies");
             HashSet<String> cookies = new HashSet<>();
 
             for (String header : originalResponse.headers("Set-Cookie")) {
@@ -30,7 +30,7 @@ public class ReceiveCookiesInterceptor implements Interceptor {
             }
 
             NetworkPreference.getInstance().setSessionId(cookies);
-            Log.d(TAG, "Saving cookies - Done");
+//            Log.d(TAG, "Saving cookies - Done");
         }
 
         return originalResponse;

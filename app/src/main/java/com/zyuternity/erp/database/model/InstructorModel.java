@@ -1,20 +1,25 @@
-package com.zyuternity.erp.network.json_model;
+package com.zyuternity.erp.database.model;
 
-import android.text.TextUtils;
-
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by ZYuTernity on 7/12/2016.
  */
-public class JSONInstructorModel {
+public class InstructorModel extends RealmObject {
     private String email;
     private String phone;
     private String image;
     private String name;
     private String team;
+    @PrimaryKey
     private String code;
-    private List<JSONInstructorClassesModel> classes;
+    private RealmList<InstructorClassModel> instructorClassList;
+
+    public String getImage() {
+        return image;
+    }
 
     public String getEmail() {
         return email;
@@ -30,12 +35,6 @@ public class JSONInstructorModel {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getImage() {
-        String decodedImage = this.image;
-        String[] parts = decodedImage.split(",");
-        return parts[1];
     }
 
     public void setImage(String image) {
@@ -66,11 +65,11 @@ public class JSONInstructorModel {
         this.code = code;
     }
 
-    public List<JSONInstructorClassesModel> getClasses() {
-        return classes;
+    public RealmList<InstructorClassModel> getInstructorClassList() {
+        return instructorClassList;
     }
 
-    public void setClasses(List<JSONInstructorClassesModel> classes) {
-        this.classes = classes;
+    public void setInstructorClassList(RealmList<InstructorClassModel> instructorClassList) {
+        this.instructorClassList = instructorClassList;
     }
 }
