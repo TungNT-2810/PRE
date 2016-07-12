@@ -1,4 +1,4 @@
-package com.zyuternity.erp.activity;
+package com.zyuternity.erp.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

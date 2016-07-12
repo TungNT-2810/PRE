@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/login_padding_horizontal"
     android:paddingBottom="@dimen/login_padding_vertical"
     android:paddingTop="@dimen/login_padding_top"
-    tools:context=".activity.Login"
+    tools:context=".activities.LoginActivity"
     android:id="@+id/login_layout">
 
         <RelativeLayout
