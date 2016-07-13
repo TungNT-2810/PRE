@@ -26,4 +26,11 @@ public class ClassModel extends RealmObject {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public static ClassModel create(String code, String title) {
+        ClassModel classModel = new ClassModel();
+        classModel.code = code;
+        classModel.title = title;
+        return classModel;
+    }
 }

@@ -1,9 +1,6 @@
 package com.zyuternity.erp;
 
 import android.app.Application;
-import android.util.Log;
-
-import com.zyuternity.erp.database.connection.DBContext;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;

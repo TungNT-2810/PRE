@@ -26,4 +26,11 @@ public class RoleModel extends RealmObject {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public static RoleModel create(String code, String title){
+        RoleModel roleModel = new RoleModel();
+        roleModel.code = code;
+        roleModel.title = title;
+        return roleModel;
+    }
 }

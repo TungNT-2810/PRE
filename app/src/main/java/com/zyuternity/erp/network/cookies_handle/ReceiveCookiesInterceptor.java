@@ -1,7 +1,5 @@
 package com.zyuternity.erp.network.cookies_handle;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.util.HashSet;
 

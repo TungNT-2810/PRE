@@ -1,27 +1,30 @@
 package com.zyuternity.erp.database.connection;
 
+import android.util.Log;
+
 import com.zyuternity.erp.database.model.ClassModel;
 import com.zyuternity.erp.database.model.InstructorClassModel;
 import com.zyuternity.erp.database.model.InstructorModel;
 import com.zyuternity.erp.database.model.RoleModel;
-import com.zyuternity.erp.network.json_model.JSONClassListModel;
-import com.zyuternity.erp.network.json_model.JSONClassModel;
-import com.zyuternity.erp.network.json_model.JSONInstructorClassesModel;
-import com.zyuternity.erp.network.json_model.JSONInstructorListModel;
-import com.zyuternity.erp.network.json_model.JSONInstructorModel;
-import com.zyuternity.erp.network.json_model.JSONRoleListModel;
-import com.zyuternity.erp.network.json_model.JSONRoleModel;
+
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+
+
+/* Ref: https://realm.io/docs/java/latest/ */
 
 /**
  * Created by ZYuTernity on 7/12/2016.
  */
 public class DBContext {
+
+    private static final String TAG = DBContext.class.toString();
     private Realm realm;
 
     private DBContext(){
+        realm = Realm.getDefaultInstance();
     }
 
     private static DBContext inst;
@@ -33,75 +36,70 @@ public class DBContext {
         return inst;
     }
 
+    public ClassModel addOrUpdateClass(ClassModel classModel) {
+        ClassModel foundClassModel = realm
+                .where(ClassModel.class)
+                .equalTo("code", classModel.getCode())
+                .findFirst();
+        ClassModel returnClassModel;
+        realm.beginTransaction();
+        if(foundClassModel == null) {
+            /* add */
+            returnClassModel = realm.copyToRealm(classModel);
+
+        } else {
+            /* update */
+            foundClassModel.setTitle(classModel.getTitle());
+            returnClassModel = foundClassModel;
+        }
+        realm.commitTransaction();
+        return returnClassModel;
+    }
+
     public ClassModel getClassModelByCode(String code){
-        realm = Realm.getDefaultInstance();
+        realm.getDefaultInstance();
         return realm.where(ClassModel.class).equalTo("code", code).findFirst();
+
     }
 
-    public InstructorModel getInstructorModelByCode(String code){
-        realm = Realm.getDefaultInstance();
-        return realm.where(InstructorModel.class).equalTo("code", code).findFirst();
-    }
-
-    public RoleModel getRoleModelByCode(String code){
-        realm = Realm.getDefaultInstance();
-        return realm.where(RoleModel.class).equalTo("code", code).findFirst();
-    }
-
-    public void saveClasses (JSONClassListModel jsonClassListModel){
-        for (JSONClassModel jsonClassModel : jsonClassListModel.getItem()){
-            realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-            if (getClassModelByCode(jsonClassModel.getCode()) == null){
-                ClassModel classModel = new ClassModel();
-                classModel.setCode(jsonClassModel.getCode());
-                classModel.setTitle(jsonClassModel.getTitle());
-                realm.copyToRealmOrUpdate(classModel);
-            }
-            realm.commitTransaction();
+    public RoleModel addOrUpdateRoleModel(RoleModel roleModel) {
+        /*  Check whether the role already exist in DB */
+        RoleModel foundRoleModel = realm
+                .where(RoleModel.class)
+                .equalTo("code", roleModel.getCode())
+                .findFirst();
+        RoleModel returnRoleModel;
+        realm.beginTransaction();
+        if (foundRoleModel == null){
+            /* Roie not afound, add new*/
+            returnRoleModel = realm.copyToRealm(roleModel);
+        } else {
+            /* Role found,update role information  */
+            foundRoleModel.setTitle(roleModel.getTitle());
+            returnRoleModel = foundRoleModel;
         }
+        realm.commitTransaction();
+        return returnRoleModel;
     }
 
-    public void saveInstructor (JSONInstructorListModel jsonInstructorListModel){
-        for (JSONInstructorModel jsonInstructorModel : jsonInstructorListModel.getItems()){
-            realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-            if (getInstructorModelByCode(jsonInstructorModel.getCode()) == null){
-                InstructorModel instructorModel = new InstructorModel();
-                instructorModel.setEmail(jsonInstructorModel.getEmail());
-                instructorModel.setPhone(jsonInstructorModel.getPhone());
-                instructorModel.setImage(jsonInstructorModel.getImage());
-                instructorModel.setName(jsonInstructorModel.getName());
-                instructorModel.setTeam(jsonInstructorModel.getTeam());
-                instructorModel.setCode(jsonInstructorModel.getCode());
-                RealmList<InstructorClassModel> instructorClassModels = new RealmList<>();
-                for (JSONInstructorClassesModel jsonInstructorClassesModel : jsonInstructorModel.getClasses()){
-                    InstructorClassModel instructorClassModel = new InstructorClassModel();
-                    instructorClassModel.setClassCode(jsonInstructorClassesModel.getClass_code());
-                    instructorClassModel.setRole(jsonInstructorClassesModel.getRole());
-                }
-                realm.copyToRealmOrUpdate(instructorModel);
-            }
-            realm.commitTransaction();
+    public InstructorModel addOrUpdateInstructorModel (InstructorModel instructorModel) {
+        InstructorModel foundInstructorModel = realm.where(InstructorModel.class)
+                .equalTo("code", instructorModel.getCode())
+                .findFirst();
+        InstructorModel returnInstructorModel;
+        realm.beginTransaction();
+        if (foundInstructorModel == null) {
+        } else {
+            foundInstructorModel.deleteFromRealm();
+
+            Log.d(TAG, "Instructor updated");
         }
+        returnInstructorModel = realm.copyToRealm(instructorModel);
+        realm.commitTransaction();
+        return returnInstructorModel;
     }
 
-    public void saveRole (JSONRoleListModel jsonRoleListModel){
-        for (JSONRoleModel jsonRoleModel : jsonRoleListModel.getItems()){
-            realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-            if (getRoleModelByCode(jsonRoleModel.getCode()) == null){
-                RoleModel roleModel = new RoleModel();
-                roleModel.setCode(jsonRoleModel.getCode());
-                roleModel.setTitle(jsonRoleModel.getTitle());
-                realm.copyToRealmOrUpdate(roleModel);
-            }
-            realm.commitTransaction();
-        }
-    }
-
-    public String getRoleModel(String code){
-        realm = Realm.getDefaultInstance();
-        return realm.where(RoleModel.class).equalTo("code", code).findFirst().toString();
+    public List<InstructorModel> getAllInstructorModels() {
+        return realm.where(InstructorModel.class).findAll();
     }
 }

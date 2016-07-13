@@ -15,9 +15,14 @@ import android.view.MenuItem;
 import android.widget.ToggleButton;
 
 import com.zyuternity.erp.R;
+import com.zyuternity.erp.fragments.InstructorListFragment;
+import com.zyuternity.erp.fragments.ScreenManagerHolder;
+import com.zyuternity.erp.managers.ScreenManager;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ScreenManagerHolder {
+
+    private ScreenManager screenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        initLayout();
+        screenManager.openFragment(InstructorListFragment.create(this.screenManager), false);
+
+    }
+
+    private void initLayout() {
+        screenManager = new ScreenManager(this.getSupportFragmentManager(), R.id.frl_fragment_container);
     }
 
     @Override
@@ -42,7 +54,10 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            boolean backResult = screenManager.back();
+            if (!backResult){
+                super.onBackPressed();
+            }
         }
     }
 
@@ -91,5 +106,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public ScreenManager getScreenManager() {
+        return this.screenManager;
     }
 }

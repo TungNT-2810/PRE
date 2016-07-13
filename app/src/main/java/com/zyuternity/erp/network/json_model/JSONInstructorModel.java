@@ -1,41 +1,28 @@
 package com.zyuternity.erp.network.json_model;
 
-import android.text.TextUtils;
-
 import java.util.List;
 
 /**
  * Created by ZYuTernity on 7/12/2016.
  */
 public class JSONInstructorModel {
-    private String email;
-    private String phone;
+    private JSONContactModel contact;
     private String image;
     private String name;
     private String team;
     private String code;
     private List<JSONInstructorClassesModel> classes;
 
-    public String getEmail() {
-        return email;
+    public JSONContactModel getContact() {
+        return contact;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setContact(JSONContactModel contact) {
+        this.contact = contact;
     }
 
     public String getImage() {
-        String decodedImage = this.image;
-        String[] parts = decodedImage.split(",");
-        return parts[1];
+        return image;
     }
 
     public void setImage(String image) {

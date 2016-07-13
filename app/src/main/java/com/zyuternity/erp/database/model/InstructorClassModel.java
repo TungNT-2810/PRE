@@ -1,14 +1,12 @@
 package com.zyuternity.erp.database.model;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by ZYuTernity on 7/12/2016.
  */
 public class InstructorClassModel extends RealmObject {
     private String role;
-    @PrimaryKey
     private String classCode;
 
     public String getRole() {
@@ -26,4 +24,13 @@ public class InstructorClassModel extends RealmObject {
     public void setClassCode(String classCode) {
         this.classCode = classCode;
     }
+
+    public static InstructorClassModel create(String role, String classCode){
+        InstructorClassModel instructorClassModel = new InstructorClassModel();
+        instructorClassModel.setRole(role);
+        instructorClassModel.setClassCode(classCode);
+        return instructorClassModel;
+    }
+
+
 }

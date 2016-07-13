@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:background="@mipmap/background"
     android:paddingLeft="@dimen/login_padding_horizontal"
@@ -56,7 +57,7 @@
                     android:id="@+id/edt_email"
                     android:textColorHint="@color/colorText"
                     android:singleLine="true"
-                    android:background="@drawable/custom_login_edittext"/>
+                    android:background="@drawable/custom_login_edittext" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -98,8 +99,7 @@
                     android:textColorHint="@color/colorText"
                     android:singleLine="true"
                     android:background="@drawable/custom_login_edittext"
-                    android:password="true"
-                    />
+                    android:password="true" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -111,15 +111,31 @@
                 android:layout_marginLeft="@dimen/margin_left_login_icon"
                 android:layout_marginRight="@dimen/margin_right_login_edit_text"/>
 
-            <Button
+            <com.dd.processbutton.iml.ActionProcessButton
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/login_button_height"
                 android:layout_alignParentBottom="true"
                 android:text="LOGIN"
-                android:textSize="24sp"
-                android:background="@color/colorButton"
                 android:textColor="@color/colorWhite"
-                android:id="@+id/btn_login"/>
+                android:textSize="23sp"
+                android:id="@+id/btn_login"
+                app:pb_colorComplete="#F44336"
+                app:pb_colorNormal="@color/colorButton"
+                app:pb_colorPressed="#9a00ed"
+                app:pb_textProgress="LOGGING IN ..."
+                app:pb_textComplete="LOGIN FAILED!"
+                android:gravity="center"
+                />
+
+            <!--<Button-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/login_button_height"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:text="LOGIN"-->
+                <!--android:textSize="24sp"-->
+                <!--android:background="@color/colorButton"-->
+                <!--android:textColor="@color/colorWhite"-->
+                <!--android:id="@+id/btn_login"/>-->
 
         </RelativeLayout>
 

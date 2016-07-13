@@ -17,10 +17,6 @@ public class InstructorModel extends RealmObject {
     private String code;
     private RealmList<InstructorClassModel> instructorClassList;
 
-    public String getImage() {
-        return image;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -35,6 +31,10 @@ public class InstructorModel extends RealmObject {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public void setImage(String image) {
@@ -72,4 +72,28 @@ public class InstructorModel extends RealmObject {
     public void setInstructorClassList(RealmList<InstructorClassModel> instructorClassList) {
         this.instructorClassList = instructorClassList;
     }
+
+    public void addToList(InstructorClassModel instructorClassModel){
+        this.instructorClassList.add(instructorClassModel);
+    }
+
+//    public void updateInstructorClassList(RealmList<InstructorClassModel> instructorClassList) {
+//        for(InstructorClassModel instructorClassModel : this.instructorClassList) {
+//            instructorClassModel.deleteFromRealm();
+//        }
+//    }
+
+    public static InstructorModel create(String email, String phone, String image, String name
+            , String team, String code, RealmList<InstructorClassModel> instructorClassModelList){
+        InstructorModel instructorModel = new InstructorModel();
+        instructorModel.setEmail(email);
+        instructorModel.setPhone(phone);
+        instructorModel.setImage(image);
+        instructorModel.setTeam(team);
+        instructorModel.setCode(code);
+        instructorModel.setName(name);
+        instructorModel.setInstructorClassList(instructorClassModelList);
+        return instructorModel;
+    }
+
 }
