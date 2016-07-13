@@ -45,21 +45,16 @@ public class DBContext {
         realm.beginTransaction();
         if(foundClassModel == null) {
             /* add */
-            returnClassModel = realm.copyToRealm(classModel);
+           Log.d(TAG, "Class Added");
 
         } else {
             /* update */
-            foundClassModel.setTitle(classModel.getTitle());
-            returnClassModel = foundClassModel;
+            foundClassModel.deleteFromRealm();
+            Log.d(TAG, "Class Updated");
         }
+        returnClassModel = realm.copyToRealm(classModel);
         realm.commitTransaction();
         return returnClassModel;
-    }
-
-    public ClassModel getClassModelByCode(String code){
-        realm.getDefaultInstance();
-        return realm.where(ClassModel.class).equalTo("code", code).findFirst();
-
     }
 
     public RoleModel addOrUpdateRoleModel(RoleModel roleModel) {
@@ -72,12 +67,14 @@ public class DBContext {
         realm.beginTransaction();
         if (foundRoleModel == null){
             /* Roie not afound, add new*/
-            returnRoleModel = realm.copyToRealm(roleModel);
+            Log.d(TAG, "Role added");
         } else {
             /* Role found,update role information  */
-            foundRoleModel.setTitle(roleModel.getTitle());
-            returnRoleModel = foundRoleModel;
+            foundRoleModel.deleteFromRealm();
+            Log.d(TAG, "Role updated");
+
         }
+        returnRoleModel = realm.copyToRealm(roleModel);
         realm.commitTransaction();
         return returnRoleModel;
     }
@@ -89,6 +86,7 @@ public class DBContext {
         InstructorModel returnInstructorModel;
         realm.beginTransaction();
         if (foundInstructorModel == null) {
+            Log.d(TAG, "Instructor added");
         } else {
             foundInstructorModel.deleteFromRealm();
 
@@ -99,7 +97,4 @@ public class DBContext {
         return returnInstructorModel;
     }
 
-    public List<InstructorModel> getAllInstructorModels() {
-        return realm.where(InstructorModel.class).findAll();
-    }
 }
