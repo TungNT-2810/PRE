@@ -31,7 +31,6 @@ import retrofit2.Response;
  */
 public class InstructorListFragment extends BaseFragment {
 
-    Button btnChange;
     private DBContext dbContext;
     public static final String TAG = InstructorListFragment.class.toString();
 
@@ -50,7 +49,6 @@ public class InstructorListFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_instructor_list, container, false);
-        initLayout(view);
         initDatabase();
         return view;
     }
@@ -61,19 +59,6 @@ public class InstructorListFragment extends BaseFragment {
         super.onResume();
     }
 
-    private void initLayout(View view) {
-        btnChange = (Button) view.findViewById(R.id.btn_change);
-        btnChange.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                for(InstructorModel instructorModel : dbContext.getAllInstructorModels()) {
-                    Log.d(TAG, instructorModel.getName() + ", " + instructorModel.getEmail());
-                }
-                getScreenManager().openFragment(new HistoryFragment(), true);
-            }
-        });
-    }
 
     private void initDatabase(){
         dbContext = DBContext.getInst();
@@ -94,7 +79,7 @@ public class InstructorListFragment extends BaseFragment {
                                     , jsonInstructorClassesModel.getClass_code());
                             instructorClassModelRealmList.add(instructorClassModel);
                         }
-                        Log.d(TAG, "JSON.Email: " + jsonInstructorModel.getContact().getEmail() + " , JSON.Phone: "+jsonInstructorModel.getContact().getPhone());
+//                        Log.d(TAG, "JSON.Email: " + jsonInstructorModel.getContact().getEmail() + " , JSON.Phone: "+jsonInstructorModel.getContact().getPhone());
                         dbContext.addOrUpdateInstructorModel(InstructorModel.create(jsonInstructorModel.getContact().getEmail()
                         ,jsonInstructorModel.getContact().getPhone(), jsonInstructorModel.getImage(), jsonInstructorModel.getName()
                         ,jsonInstructorModel.getTeam(), jsonInstructorModel.getCode(), instructorClassModelRealmList));
