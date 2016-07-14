@@ -1,16 +1,12 @@
-package com.zyuternity.erp.database.connection;
+package com.zyuternity.erp.databases.connection;
 
 import android.util.Log;
 
-import com.zyuternity.erp.database.model.ClassModel;
-import com.zyuternity.erp.database.model.InstructorClassModel;
-import com.zyuternity.erp.database.model.InstructorModel;
-import com.zyuternity.erp.database.model.RoleModel;
-
-import java.util.List;
+import com.zyuternity.erp.databases.model.ClassModel;
+import com.zyuternity.erp.databases.model.InstructorModel;
+import com.zyuternity.erp.databases.model.RoleModel;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 
 
 /* Ref: https://realm.io/docs/java/latest/ */

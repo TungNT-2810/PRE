@@ -1,4 +1,4 @@
-package com.zyuternity.erp.database.model;
+package com.zyuternity.erp.databases.model;
 
 import io.realm.RealmObject;
 

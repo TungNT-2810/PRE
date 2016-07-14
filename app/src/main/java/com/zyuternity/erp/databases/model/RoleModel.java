@@ -1,15 +1,15 @@
-package com.zyuternity.erp.database.model;
+package com.zyuternity.erp.databases.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by ZYuTernity on 7/12/2016.
+ * Created by ZYuTernity on 7/13/2016.
  */
-public class ClassModel extends RealmObject {
-    private String title;
+public class RoleModel extends RealmObject {
     @PrimaryKey
     private String code;
+    private String title;
 
     public String getCode() {
         return code;
@@ -27,10 +27,10 @@ public class ClassModel extends RealmObject {
         this.title = title;
     }
 
-    public static ClassModel create(String code, String title) {
-        ClassModel classModel = new ClassModel();
-        classModel.code = code;
-        classModel.title = title;
-        return classModel;
+    public static RoleModel create(String code, String title){
+        RoleModel roleModel = new RoleModel();
+        roleModel.code = code;
+        roleModel.title = title;
+        return roleModel;
     }
 }

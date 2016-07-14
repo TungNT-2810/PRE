@@ -1,23 +1,24 @@
 package com.zyuternity.erp.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.wang.avi.AVLoadingIndicatorView;
 import com.zyuternity.erp.R;
-import com.zyuternity.erp.activities.LoginActivity;
-import com.zyuternity.erp.database.connection.DBContext;
-import com.zyuternity.erp.database.model.ClassModel;
-import com.zyuternity.erp.database.model.InstructorClassModel;
-import com.zyuternity.erp.database.model.InstructorModel;
-import com.zyuternity.erp.database.model.RoleModel;
+import com.zyuternity.erp.adapters.InstructorRecyclerViewAdapter;
+import com.zyuternity.erp.databases.connection.DBContext;
+import com.zyuternity.erp.databases.model.ClassModel;
+import com.zyuternity.erp.databases.model.InstructorClassModel;
+import com.zyuternity.erp.databases.model.InstructorModel;
+import com.zyuternity.erp.databases.model.RoleModel;
 import com.zyuternity.erp.managers.ScreenManager;
 import com.zyuternity.erp.network.ServiceFactory;
 import com.zyuternity.erp.network.json_model.JSONClassListModel;
@@ -42,8 +43,10 @@ import retrofit2.Response;
  */
 public class InstructorListFragment extends BaseFragment {
 
+    private View view;
     private DBContext dbContext;
     private AVLoadingIndicatorView avLoadingIndicatorView;
+    private RecyclerView instructoRecyclerView;
     public static final String TAG = InstructorListFragment.class.toString();
 
 
@@ -60,7 +63,7 @@ public class InstructorListFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_instructor_list, container, false);
+        view = inflater.inflate(R.layout.fragment_instructor_list, container, false);
         initLayout(view);
         initDatabase();
         return view;
@@ -68,19 +71,39 @@ public class InstructorListFragment extends BaseFragment {
 
     @Override
     public void onResume() {
-        getClasses();
         getRole();
+        getClasses();
         getInstructor();
+        loadInstructor(view);
         avLoadingIndicatorView.setVisibility(View.GONE);
         super.onResume();
     }
 
     private void initLayout(View view){
+        instructoRecyclerView = (RecyclerView) view.findViewById(R.id.instructor_list);
         avLoadingIndicatorView = (AVLoadingIndicatorView) view.findViewById(R.id.loading_view);
     }
 
     private void initDatabase(){
         dbContext = DBContext.getInst();
+    }
+
+    private void loadInstructor(View view){
+        Context context = view.getContext();
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        instructoRecyclerView.setLayoutManager(layoutManager);
+
+        InstructorRecyclerViewAdapter instructorRecyclerViewAdapter = new InstructorRecyclerViewAdapter();
+
+        instructorRecyclerViewAdapter.setContext(context);
+        instructoRecyclerView.setAdapter(instructorRecyclerViewAdapter);
+
+        StaggeredGridLayoutManager staggeredGridLayoutManager =
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
+        instructoRecyclerView.setLayoutManager(staggeredGridLayoutManager);
     }
 
     private void getInstructor(){
@@ -104,6 +127,7 @@ public class InstructorListFragment extends BaseFragment {
                         ,jsonInstructorModel.getTeam(), jsonInstructorModel.getCode(), instructorClassModelRealmList));
                     }
                 }
+
             }
             @Override
             public void onFailure(Call<JSONInstructorListModel> call, Throwable t) {
@@ -111,7 +135,6 @@ public class InstructorListFragment extends BaseFragment {
             }
         });
     }
-
     private void getClasses(){
         GetClassesService getClassesService = ServiceFactory.getInstance().createService(GetClassesService.class);
         Call<JSONClassListModel> call = getClassesService.classesModelCall();
