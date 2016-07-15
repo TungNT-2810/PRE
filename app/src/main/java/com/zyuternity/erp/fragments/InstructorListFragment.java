@@ -47,6 +47,7 @@ public class InstructorListFragment extends BaseFragment {
     private DBContext dbContext;
     private AVLoadingIndicatorView avLoadingIndicatorView;
     private RecyclerView instructoRecyclerView;
+    private InstructorRecyclerViewAdapter instructorRecyclerViewAdapter;
     public static final String TAG = InstructorListFragment.class.toString();
 
 
@@ -74,8 +75,6 @@ public class InstructorListFragment extends BaseFragment {
         getRole();
         getClasses();
         getInstructor();
-        loadInstructor(view);
-        avLoadingIndicatorView.setVisibility(View.GONE);
         super.onResume();
     }
 
@@ -89,21 +88,14 @@ public class InstructorListFragment extends BaseFragment {
     }
 
     private void loadInstructor(View view){
-        Context context = view.getContext();
-
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        instructoRecyclerView.setLayoutManager(layoutManager);
-
-        InstructorRecyclerViewAdapter instructorRecyclerViewAdapter = new InstructorRecyclerViewAdapter();
-
-        instructorRecyclerViewAdapter.setContext(context);
+        instructorRecyclerViewAdapter = new InstructorRecyclerViewAdapter(DBContext.getInst().getAllInstructor());
+        instructorRecyclerViewAdapter.setContext(view.getContext());
         instructoRecyclerView.setAdapter(instructorRecyclerViewAdapter);
-
+        instructoRecyclerView.setHasFixedSize(true);
         StaggeredGridLayoutManager staggeredGridLayoutManager =
-                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-
+                new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         instructoRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        avLoadingIndicatorView.setVisibility(View.GONE);
     }
 
     private void getInstructor(){
@@ -127,6 +119,7 @@ public class InstructorListFragment extends BaseFragment {
                         ,jsonInstructorModel.getTeam(), jsonInstructorModel.getCode(), instructorClassModelRealmList));
                     }
                 }
+                loadInstructor(view);
 
             }
             @Override

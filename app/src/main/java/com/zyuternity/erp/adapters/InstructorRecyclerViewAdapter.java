@@ -19,6 +19,11 @@ public class InstructorRecyclerViewAdapter extends RecyclerView.Adapter<Instruct
 
     private Context context;
     private LayoutInflater layoutInflater;
+    private List<InstructorModel> instructorModelList;
+
+    public InstructorRecyclerViewAdapter(List<InstructorModel> instructorModelList) {
+        this.instructorModelList = instructorModelList;
+    }
 
     public void setContext(Context context) {
         this.context = context;
@@ -35,12 +40,12 @@ public class InstructorRecyclerViewAdapter extends RecyclerView.Adapter<Instruct
 
     @Override
     public void onBindViewHolder(InstructorViewHolder holder, int position) {
-
+        holder.setData(instructorModelList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return instructorModelList.size();
     }
 
     @Override

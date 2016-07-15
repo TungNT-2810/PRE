@@ -6,6 +6,8 @@ import com.zyuternity.erp.databases.model.ClassModel;
 import com.zyuternity.erp.databases.model.InstructorModel;
 import com.zyuternity.erp.databases.model.RoleModel;
 
+import java.util.List;
+
 import io.realm.Realm;
 
 
@@ -91,6 +93,10 @@ public class DBContext {
         returnInstructorModel = realm.copyToRealm(instructorModel);
         realm.commitTransaction();
         return returnInstructorModel;
+    }
+
+    public List<InstructorModel> getAllInstructor(){
+        return realm.where(InstructorModel.class).findAll();
     }
 
 }
